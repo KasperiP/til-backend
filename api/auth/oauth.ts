@@ -1,12 +1,13 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import jwt from 'jsonwebtoken';
-import { db } from '../../lib/kysely';
-import { loginWithGithub } from '../../lib/oauth/github';
-import { loginWithGoogle } from '../../lib/oauth/google';
-import { loginWithLinkedin } from '../../lib/oauth/linkedin';
-import { seed } from '../../lib/seed';
-import { SupportedProviders, UserCreate } from '../../models/auth.model';
-import { ApiError } from '../../models/errors.model';
+import {
+  db,
+  loginWithGithub,
+  loginWithGoogle,
+  loginWithLinkedin,
+  seed,
+} from '../../lib';
+import { ApiError, SupportedProviders, UserCreate } from '../../models';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') {

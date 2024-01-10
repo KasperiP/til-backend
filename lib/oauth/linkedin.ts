@@ -1,5 +1,9 @@
-import { SupportedProviders, UserCreate } from '../../models/auth.model';
-import { LinkedInAuthRes, LinkedInUserRes } from '../../models/linkedin.model';
+import {
+  LinkedInAuthRes,
+  LinkedInUserRes,
+  SupportedProviders,
+  UserCreate,
+} from '../../models';
 
 export const loginWithLinkedin = async (
   code: string,

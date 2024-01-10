@@ -1,5 +1,9 @@
-import { SupportedProviders, UserCreate } from '../../models/auth.model';
-import { GithubAuthRes, GithubUserRes } from '../../models/github.model';
+import {
+  GithubAuthRes,
+  GithubUserRes,
+  SupportedProviders,
+  UserCreate,
+} from '../../models';
 
 export const loginWithGithub = async (
   code: string,

@@ -1,5 +1,9 @@
-import { SupportedProviders, UserCreate } from '../../models/auth.model';
-import { GoogleAuthRes, GoogleUserRes } from '../../models/google.model';
+import {
+  GoogleAuthRes,
+  GoogleUserRes,
+  SupportedProviders,
+  UserCreate,
+} from '../../models';
 
 export const loginWithGoogle = async (
   code: string,
