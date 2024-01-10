@@ -8,6 +8,7 @@ export async function seed() {
     .addColumn('name', 'varchar(255)', (cb) => cb.notNull())
     .addColumn('email', 'varchar(255)', (cb) => cb.notNull().unique())
     .addColumn('image', 'varchar(255)')
+    .addColumn('authType', 'varchar(255)', (cb) => cb.notNull())
     .addColumn('createdAt', sql`timestamp with time zone`, (cb) =>
       cb.defaultTo(sql`current_timestamp`),
     )
