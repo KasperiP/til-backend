@@ -83,7 +83,7 @@ export default async function handler(
         name: userData.name,
         email: userData.email,
         image: userData.image,
-        authType: SupportedProviders.GITHUB,
+        authType: userData.authType,
       })
       .returningAll()
       .executeTakeFirst();
