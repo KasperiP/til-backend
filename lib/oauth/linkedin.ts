@@ -12,7 +12,7 @@ export const loginWithLinkedin = async (
     client_id: process.env.LINKEDIN_CLIENT_ID!,
     client_secret: process.env.LINKEDIN_CLIENT_SECRET!,
     code,
-    redirect_uri: 'https://til.kassq.dev/auth/oauth/linkedin/callback',
+    redirect_uri: process.env.LINKEDIN_REDIRECT_URI!,
     grant_type: 'authorization_code',
   });
 
