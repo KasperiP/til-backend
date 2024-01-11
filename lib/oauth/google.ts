@@ -1,8 +1,8 @@
 import {
-  GoogleAuthRes,
-  GoogleUserRes,
   SupportedProviders,
-  UserCreate,
+  type GoogleAuthRes,
+  type GoogleUserRes,
+  type UserCreate,
 } from '../../models';
 
 export const loginWithGoogle = async (
@@ -16,7 +16,8 @@ export const loginWithGoogle = async (
     grant_type: 'authorization_code',
   });
 
-  const formattedUrl = `https://oauth2.googleapis.com/token?` + params;
+  const formattedUrl =
+    'https://oauth2.googleapis.com/token?' + params.toString();
 
   const accessTokenRes = await fetch(formattedUrl, {
     method: 'POST',
@@ -28,7 +29,7 @@ export const loginWithGoogle = async (
 
   const accessTokenData: GoogleAuthRes = (await accessTokenRes.json()) as any;
 
-  if (!accessTokenData || !accessTokenData.access_token) {
+  if (!accessTokenData?.access_token) {
     return null;
   }
 

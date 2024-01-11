@@ -1,8 +1,8 @@
 import {
-  GithubAuthRes,
-  GithubUserRes,
   SupportedProviders,
-  UserCreate,
+  type GithubAuthRes,
+  type GithubUserRes,
+  type UserCreate,
 } from '../../models';
 
 export const loginWithGithub = async (
@@ -14,7 +14,8 @@ export const loginWithGithub = async (
     code,
   });
 
-  const formattedUrl = `https://github.com/login/oauth/access_token?` + params;
+  const formattedUrl =
+    `https://github.com/login/oauth/access_token?` + params.toString();
 
   const accessTokenRes = await fetch(formattedUrl, {
     method: 'POST',
@@ -25,7 +26,7 @@ export const loginWithGithub = async (
   });
 
   const accessTokenData: GithubAuthRes = (await accessTokenRes.json()) as any;
-  if (!accessTokenData || !accessTokenData.access_token) {
+  if (!accessTokenData?.access_token) {
     return null;
   }
 

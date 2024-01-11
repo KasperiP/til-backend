@@ -1,6 +1,6 @@
 import { db, sql } from './kysely';
 
-export async function seed() {
+export async function seed(): Promise<Record<any, void>> {
   const createUsersTable = await db.schema
     .createTable('users')
     .ifNotExists()

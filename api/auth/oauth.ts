@@ -1,4 +1,4 @@
-import { VercelRequest, VercelResponse } from '@vercel/node';
+import { type VercelRequest, type VercelResponse } from '@vercel/node';
 import jwt from 'jsonwebtoken';
 import {
   db,
@@ -7,9 +7,12 @@ import {
   loginWithLinkedin,
   seed,
 } from '../../lib';
-import { ApiError, SupportedProviders, UserCreate } from '../../models';
+import { ApiError, SupportedProviders, type UserCreate } from '../../models';
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(
+  req: VercelRequest,
+  res: VercelResponse,
+): Promise<VercelResponse> {
   if (req.method !== 'POST') {
     return res.status(405).json({ code: ApiError.METHOD_NOT_ALLOWED });
   }
@@ -18,7 +21,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(400).json({ code: ApiError.MISSING_BODY });
   }
 
-  const { code, provider } = req.body;
+  const { code, provider } = req.body as {
+    code: string;
+    provider: SupportedProviders;
+  };
 
   if (!code) {
     return res.status(400).json({ code: ApiError.MISSING_CODE });

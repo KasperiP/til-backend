@@ -1,8 +1,8 @@
 import {
-  LinkedInAuthRes,
-  LinkedInUserRes,
   SupportedProviders,
-  UserCreate,
+  type LinkedInAuthRes,
+  type LinkedInUserRes,
+  type UserCreate,
 } from '../../models';
 
 export const loginWithLinkedin = async (
@@ -17,7 +17,7 @@ export const loginWithLinkedin = async (
   });
 
   const formattedUrl =
-    `https://www.linkedin.com/oauth/v2/accessToken?` + params;
+    'https://www.linkedin.com/oauth/v2/accessToken?' + params.toString();
 
   const accessTokenRes = await fetch(formattedUrl, {
     method: 'POST',
@@ -28,7 +28,7 @@ export const loginWithLinkedin = async (
 
   const accessTokenData: any = (await accessTokenRes.json()) as LinkedInAuthRes;
 
-  if (!accessTokenData || !accessTokenData.access_token) {
+  if (!accessTokenData?.access_token) {
     return null;
   }
 

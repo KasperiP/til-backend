@@ -6,6 +6,9 @@
     "module": "CommonJS",
     "strict": true,
     "lib": ["esnext"],
+    "noUnusedParameters": true,
+    "noUnusedLocals": true,
+    "noFallthroughCasesInSwitch": true,
     "esModuleInterop": true
   }
 }
