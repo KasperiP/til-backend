@@ -12,7 +12,7 @@ export const loginWithGoogle = async (
     client_id: process.env.GOOGLE_CLIENT_ID!,
     client_secret: process.env.GOOGLE_CLIENT_SECRET!,
     code,
-    redirect_uri: 'http://localhost:4200/auth/oauth/google/callback',
+    redirect_uri: 'https://til.kassq.dev/auth/oauth/google/callback',
     grant_type: 'authorization_code',
   });
 
