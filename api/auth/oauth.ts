@@ -101,5 +101,5 @@ export default async function handler(
     `session=${token}; HttpOnly; Path=/; SameSite=Strict; Max-Age=31536000; Secure`,
   ]);
 
-  return res.status(created ? 201 : 200).end();
+  return res.status(created ? 201 : 200).json(user);
 }
