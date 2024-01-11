@@ -44,5 +44,6 @@ export const loginWithGithub = async (
     email: user.email || '',
     image: user.avatar_url,
     authType: SupportedProviders.GITHUB,
+    authId: user.id.toString(),
   };
 };

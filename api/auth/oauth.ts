@@ -61,7 +61,8 @@ export default async function handler(
 
   let user = await db
     .selectFrom('users')
-    .where('email', '=', userData.email)
+    .where('authId', '=', userData.authId)
+    .where('authType', '=', userData.authType)
     .selectAll()
     .executeTakeFirst();
   let created = false;
@@ -84,6 +85,7 @@ export default async function handler(
         email: userData.email,
         image: userData.image,
         authType: userData.authType,
+        authId: userData.authId,
       })
       .returningAll()
       .executeTakeFirst();

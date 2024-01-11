@@ -8,6 +8,7 @@ interface UserTable {
   email: string;
   image: string;
   authType: SupportedProviders;
+  authId: string;
   createdAt: ColumnType<Date, string | undefined, never>;
 }
 

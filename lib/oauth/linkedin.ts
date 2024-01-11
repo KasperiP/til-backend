@@ -26,7 +26,7 @@ export const loginWithLinkedin = async (
     },
   });
 
-  const accessTokenData: any = (await accessTokenRes.json()) as LinkedInAuthRes;
+  const accessTokenData: LinkedInAuthRes = (await accessTokenRes.json()) as any;
 
   if (!accessTokenData?.access_token) {
     return null;
@@ -45,5 +45,6 @@ export const loginWithLinkedin = async (
     email: user.email || '',
     image: user.picture,
     authType: SupportedProviders.LINKEDIN,
+    authId: user.sub,
   };
 };

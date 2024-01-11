@@ -46,5 +46,6 @@ export const loginWithGoogle = async (
     email: user.email || '',
     image: user.picture,
     authType: SupportedProviders.GOOGLE,
+    authId: user.sub,
   };
 };

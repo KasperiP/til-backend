@@ -10,6 +10,7 @@ export interface User {
   email: string;
   image: string;
   authType: SupportedProviders;
+  authId: string;
   createdAt: Date;
 }
 
