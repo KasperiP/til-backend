@@ -14,8 +14,26 @@ export async function seed(): Promise<Record<any, void>> {
       cb.defaultTo(sql`current_timestamp`),
     )
     .execute();
-  console.log(`Created "users" table`);
+
+  const createPostsTable = await db.schema
+    .createTable('posts')
+    .ifNotExists()
+    .addColumn('id', 'serial', (cb) => cb.primaryKey())
+    .addColumn('title', 'varchar(255)', (cb) => cb.notNull())
+    .addColumn('content', 'text', (cb) => cb.notNull())
+    .addColumn('tags', sql`text[]`)
+    .addColumn('authorId', 'integer', (cb) =>
+      cb.references('users.id').notNull(),
+    )
+    .addColumn('createdAt', sql`timestamp with time zone`, (cb) =>
+      cb.defaultTo(sql`current_timestamp`),
+    )
+    .execute();
+
+  console.log('Tables created');
+
   return {
     createUsersTable,
+    createPostsTable,
   };
 }

@@ -12,8 +12,18 @@ interface UserTable {
   createdAt: ColumnType<Date, string | undefined, never>;
 }
 
+interface PostTable {
+  id: Generated<number>;
+  title: string;
+  content: string;
+  tags?: string[];
+  authorId: number;
+  createdAt: ColumnType<Date, string | undefined, never>;
+}
+
 export interface Database {
   users: UserTable;
+  posts: PostTable;
 }
 
 export const db = createKysely<Database>();
