@@ -87,8 +87,8 @@ export default async function handler(
     .insertInto('posts')
     .values({
       authorId: user.id,
-      content,
-      title,
+      content: content.trim(),
+      title: title.trim(),
       tags,
     })
     .execute();
