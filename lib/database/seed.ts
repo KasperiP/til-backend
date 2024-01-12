@@ -1,3 +1,4 @@
+import { logger } from '../logger';
 import { db, sql } from './kysely';
 
 export async function seed(): Promise<Record<any, void>> {
@@ -30,7 +31,7 @@ export async function seed(): Promise<Record<any, void>> {
     )
     .execute();
 
-  console.log('Tables created');
+  logger('Seeded database');
 
   return {
     createUsersTable,
