@@ -28,7 +28,8 @@ export default async function handler(
 
   const user = await db
     .selectFrom('users')
-    .where('email', '=', decoded.email)
+    .where('authId', '=', decoded.authId)
+    .where('authType', '=', decoded.authType)
     .selectAll()
     .executeTakeFirst();
 
