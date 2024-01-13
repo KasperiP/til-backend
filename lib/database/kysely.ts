@@ -16,7 +16,7 @@ interface PostTable {
   id: Generated<number>;
   title: string;
   content: string;
-  tags?: string[];
+  tags?: string[] | null;
   authorId: number;
   createdAt: ColumnType<Date, string | undefined, never>;
 }
