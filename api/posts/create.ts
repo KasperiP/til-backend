@@ -49,7 +49,7 @@ export default async function handler(
       return res.status(400).json({ code: ApiError.INVALID_REQUEST_BODY });
     }
 
-    const validateTags = tags?.every((tag) => tag.length < 20);
+    const validateTags = tags?.every((tag) => tag.length <= 20);
     if (!validateTags) {
       logger('Tags length is invalid', LogType.ERROR, tags);
       return res.status(400).json({ code: ApiError.INVALID_REQUEST_BODY });
