@@ -46,7 +46,8 @@ export default async function handler(
   const posts = await db
     .selectFrom('posts')
     .leftJoin('users', 'users.id', 'posts.authorId')
-    .select([
+    .leftJoin('likes', 'likes.postId', 'posts.id')
+    .select((eb) => [
       'posts.id as postId',
       'posts.title',
       'posts.content',
@@ -59,7 +60,9 @@ export default async function handler(
       'users.authType',
       'users.authId',
       'users.createdAt as userCreatedAt',
+      eb.fn.count('likes.postId').as('likes'),
     ])
+    .groupBy(['posts.id', 'users.id'])
     .orderBy('posts.id', 'desc')
     .limit(formattedLimit + 1)
     .offset(formattedOffset)
@@ -71,6 +74,7 @@ export default async function handler(
     return {
       ...post,
       content: removeMarkdown(post.content).substring(0, 300).trim(),
+      likes: parseInt(post.likes as string, 10),
     };
   });
 

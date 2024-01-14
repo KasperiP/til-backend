@@ -32,7 +32,8 @@ export default async function handler(
     .selectFrom('posts')
     .where('posts.id', '=', postId)
     .leftJoin('users', 'users.id', 'posts.authorId')
-    .select([
+    .leftJoin('likes', 'likes.postId', 'posts.id')
+    .select((eb) => [
       'posts.id as postId',
       'posts.title',
       'posts.content',
@@ -45,7 +46,9 @@ export default async function handler(
       'users.authType',
       'users.authId',
       'users.createdAt as userCreatedAt',
+      eb.fn.count('likes.postId').as('likes'),
     ])
+    .groupBy(['posts.id', 'users.id'])
     .executeTakeFirst();
 
   if (!post) {

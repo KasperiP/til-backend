@@ -21,9 +21,15 @@ interface PostTable {
   createdAt: ColumnType<Date, string | undefined, never>;
 }
 
+interface LikesTable {
+  userId: number;
+  postId: number;
+}
+
 export interface Database {
   users: UserTable;
   posts: PostTable;
+  likes: LikesTable;
 }
 
 export const db = createKysely<Database>();

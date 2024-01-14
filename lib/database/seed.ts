@@ -31,10 +31,18 @@ export async function seed(): Promise<Record<any, void>> {
     )
     .execute();
 
+  const createLikesTable = await db.schema
+    .createTable('likes')
+    .ifNotExists()
+    .addColumn('userId', 'integer', (cb) => cb.references('users.id').notNull())
+    .addColumn('postId', 'integer', (cb) => cb.references('posts.id').notNull())
+    .execute();
+
   logger('Seeded database');
 
   return {
     createUsersTable,
     createPostsTable,
+    createLikesTable,
   };
 }
