@@ -36,16 +36,13 @@ export default async function handler(
     .select((eb) => [
       'posts.id as postId',
       'posts.title',
+      'posts.description',
       'posts.content',
       'posts.tags',
       'posts.createdAt as postCreatedAt',
       'users.id as userId',
       'users.name',
-      'users.email',
       'users.image',
-      'users.authType',
-      'users.authId',
-      'users.createdAt as userCreatedAt',
       eb.fn.count('likes.postId').as('likes'),
     ])
     .groupBy(['posts.id', 'users.id'])

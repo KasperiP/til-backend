@@ -21,6 +21,7 @@ export async function seed(): Promise<Record<any, void>> {
     .ifNotExists()
     .addColumn('id', 'serial', (cb) => cb.primaryKey())
     .addColumn('title', 'varchar(255)', (cb) => cb.notNull())
+    .addColumn('description', 'varchar(255)', (cb) => cb.notNull())
     .addColumn('content', 'text', (cb) => cb.notNull())
     .addColumn('tags', sql`text[]`)
     .addColumn('authorId', 'integer', (cb) =>

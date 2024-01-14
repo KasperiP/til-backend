@@ -17,24 +17,31 @@ export default async function handler(
     return res.status(400).json({ code: ApiError.MISSING_BODY });
   }
 
-  const { content, title, tags } = req.body as {
+  const { content, title, tags, description } = req.body as {
     content: string;
     title: string;
+    description: string;
     tags: string[] | undefined;
   };
 
-  if (!content || !title) {
-    logger('Missing content or title', LogType.ERROR, req.body);
+  if (!content || !title || !description) {
+    logger('Missing content, title or description', LogType.ERROR, req.body);
     return res.status(400).json({ code: ApiError.INVALID_REQUEST_BODY });
   }
 
-  if (content.length < 30 || content.length > 10000) {
+  // TODO: Content length should be lower?
+  if (content.length < 10 || content.length > 10000) {
     logger('Content length is invalid', LogType.ERROR, title);
     return res.status(400).json({ code: ApiError.INVALID_REQUEST_BODY });
   }
 
   if (title.length < 5 || title.length > 50) {
     logger('Title length is invalid', LogType.ERROR, title);
+    return res.status(400).json({ code: ApiError.INVALID_REQUEST_BODY });
+  }
+
+  if (description.length < 10 || description.length > 250) {
+    logger('Description length is invalid', LogType.ERROR, description);
     return res.status(400).json({ code: ApiError.INVALID_REQUEST_BODY });
   }
 
@@ -90,8 +97,9 @@ export default async function handler(
       content: content.trim(),
       title: title.trim(),
       tags,
+      description: description.trim(),
     })
     .execute();
 
-  return res.status(200).json({ content, title, tags: tags ?? [] });
+  return res.status(200).end();
 }

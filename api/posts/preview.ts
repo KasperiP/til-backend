@@ -50,16 +50,12 @@ export default async function handler(
     .select((eb) => [
       'posts.id as postId',
       'posts.title',
-      'posts.content',
+      'posts.description',
       'posts.tags',
       'posts.createdAt as postCreatedAt',
       'users.id as userId',
       'users.name',
-      'users.email',
       'users.image',
-      'users.authType',
-      'users.authId',
-      'users.createdAt as userCreatedAt',
       eb.fn.count('likes.postId').as('likes'),
     ])
     .groupBy(['posts.id', 'users.id'])
@@ -73,7 +69,6 @@ export default async function handler(
   const formattedPosts = posts.map((post) => {
     return {
       ...post,
-      content: removeMarkdown(post.content).substring(0, 300).trim(),
       likes: parseInt(post.likes as string, 10),
     };
   });
@@ -82,49 +77,4 @@ export default async function handler(
     posts: formattedPosts.slice(0, formattedLimit),
     hasMore,
   });
-}
-
-/**
- * This function is nowhere near perfect, but it's good enough for now.
- * It is meant to remove markdown from a string for preview purposes. When
- * the user clicks on a post, the full markdown will be displayed.
- * @param markdownText text to remove markdown from
- * @returns plain text
- */
-function removeMarkdown(markdownText: string): string {
-  const regexPatterns: Array<[RegExp, string]> = [
-    // Headers
-    [/###### (.*$)/gm, '$1'], // H6
-    [/##### (.*$)/gm, '$1'], // H5
-    [/#### (.*$)/gm, '$1'], // H4
-    [/### (.*$)/gm, '$1'], // H3
-    [/## (.*$)/gm, '$1'], // H2
-    [/# (.*$)/gm, '$1'], // H1
-    // Styles
-    [/\*\*(.*?)\*\*/g, '$1'], // Bold
-    [/__(.*?)__/g, '$1'], // Bold
-    [/\*(.*?)\*/g, '$1'], // Italic
-    [/_(.*?)_/g, '$1'], // Italic
-    [/`(.*?)`/g, '$1'], // Inline code
-    [/!\[(.*?)\]\((.*?)\)/g, '$1'], // Images (keep alt text)
-    [/\[(.*?)\]\((.*?)\)/g, '$1'], // Links (keep link text)
-    // Lists
-    [/(\n- (.*))/g, '$2'], // Unordered lists
-    [/(\n\d\. (.*))/g, '$2'], // Ordered lists
-    // Others
-    [/~~(.*?)~~/g, '$1'], // Strikethrough
-    [/\n```(.*?)\n```/gs, '$1'], // Block code (keep code content)
-    [/---/g, ''], // Horizontal rule
-    [/^\n/g, ''], // New line at start
-    [/(\n> (.*))/g, '$2'], // Blockquotes
-    [/\n/g, ' '], // New lines
-    [/\s{2,}/g, ' '],
-  ];
-
-  let plainText = markdownText;
-  regexPatterns.forEach(([pattern, replacement]) => {
-    plainText = plainText.replace(pattern, replacement);
-  });
-
-  return plainText.trim();
 }

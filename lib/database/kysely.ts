@@ -15,6 +15,7 @@ interface UserTable {
 interface PostTable {
   id: Generated<number>;
   title: string;
+  description: string;
   content: string;
   tags?: string[] | null;
   authorId: number;
