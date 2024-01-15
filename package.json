@@ -21,7 +21,7 @@
   "bugs": {
     "url": "https://github.com/KasperiP/til-frontend/issues"
   },
-  "homepage": "https://til.kassq.dev",
+  "homepage": "https://learnedtoday.app",
   "license": "MIT",
   "engines": {
     "node": ">=20.x"

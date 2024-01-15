@@ -8,7 +8,7 @@
         { "key": "Access-Control-Allow-Credentials", "value": "true" },
         {
           "key": "Access-Control-Allow-Origin",
-          "value": "https://til.kassq.dev"
+          "value": "https://learnedtoday.app"
         },
         {
           "key": "Access-Control-Allow-Methods",
