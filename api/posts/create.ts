@@ -45,7 +45,7 @@ export default async function handler(
     return res.status(400).json({ code: ApiError.INVALID_REQUEST_BODY });
   }
 
-  if (tags !== undefined) {
+  if (tags) {
     if (!Array.isArray(tags)) {
       logger('Tags is not an array', LogType.ERROR, tags);
       return res.status(400).json({ code: ApiError.INVALID_REQUEST_BODY });
