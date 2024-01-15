@@ -15,10 +15,16 @@ export default async function handler(
     return res.status(403).json({ code: ApiError.MISSING_SESSION_COOKIE });
   }
 
-  res.setHeader(
-    'Set-Cookie',
-    'session=deleted; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT',
-  );
+  let cookieStr = `session=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+
+  const vercelEnv = process.env.VERCEL_ENV!;
+  const domain = process.env.DOMAIN;
+
+  if (vercelEnv && vercelEnv !== 'development' && domain) {
+    cookieStr += `; Domain=${domain}`;
+  }
+
+  res.setHeader('Set-Cookie', cookieStr);
 
   return res.status(200).end();
 }
