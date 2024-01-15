@@ -90,6 +90,23 @@ export default async function handler(
     return res.status(404).json({ code: ApiError.NOT_FOUND });
   }
 
+  const userPosts = await db
+    .selectFrom('posts')
+    .where('authorId', '=', user.id)
+    .select(['createdAt'])
+    .execute();
+
+  const postsToday = userPosts.filter(
+    (post) =>
+      new Date(post.createdAt).getDate() === new Date().getDate() &&
+      new Date(post.createdAt).getMonth() === new Date().getMonth() &&
+      new Date(post.createdAt).getFullYear() === new Date().getFullYear(),
+  );
+
+  if (postsToday.length >= 3) {
+    return res.status(429).json({ code: ApiError.POST_LIMIT_REACHED });
+  }
+
   await db
     .insertInto('posts')
     .values({
