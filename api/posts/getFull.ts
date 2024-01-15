@@ -1,6 +1,7 @@
 import { type VercelRequest, type VercelResponse } from '@vercel/node';
 import { db, seed } from '../../lib';
 import { ApiError } from '../../models';
+import { estimateReadTime } from '../../utils/estimateReadTime';
 
 export default async function handler(
   req: VercelRequest,
@@ -52,5 +53,10 @@ export default async function handler(
     return res.status(404).json({ code: ApiError.NOT_FOUND });
   }
 
-  return res.status(200).json(post);
+  const postWithReadTime = {
+    ...post,
+    readTime: estimateReadTime(post.content),
+  };
+
+  return res.status(200).json(postWithReadTime);
 }

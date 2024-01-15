@@ -1,6 +1,7 @@
 import { type VercelRequest, type VercelResponse } from '@vercel/node';
 import { db, logger, seed } from '../../lib';
 import { ApiError, LogType } from '../../models';
+import { estimateReadTime } from '../../utils/estimateReadTime';
 
 export default async function handler(
   req: VercelRequest,
@@ -52,6 +53,7 @@ export default async function handler(
       'posts.title',
       'posts.description',
       'posts.tags',
+      'posts.content',
       'posts.createdAt as postCreatedAt',
       'users.id as userId',
       'users.name',
@@ -69,7 +71,9 @@ export default async function handler(
   const formattedPosts = posts.map((post) => {
     return {
       ...post,
+      content: undefined,
       likes: parseInt(post.likes as string, 10),
+      readTime: estimateReadTime(post.content),
     };
   });
 
