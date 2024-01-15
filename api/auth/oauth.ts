@@ -99,9 +99,16 @@ export default async function handler(
     expiresIn: '1y',
   });
 
-  res.setHeader('Set-Cookie', [
-    `session=${token}; HttpOnly; Path=/; SameSite=Strict; Max-Age=31536000; Secure`,
-  ]);
+  let cookieStr = `session=${token}; HttpOnly; Path=/; SameSite=Strict; Max-Age=31536000; Secure`;
+
+  const vercelEnv = process.env.VERCEL_ENV!;
+  const domain = process.env.DOMAIN;
+
+  if (vercelEnv && vercelEnv !== 'development' && domain) {
+    cookieStr += `; Domain=${domain}`;
+  }
+
+  res.setHeader('Set-Cookie', [cookieStr]);
 
   return res.status(created ? 201 : 200).json(user);
 }
