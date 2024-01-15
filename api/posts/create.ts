@@ -113,7 +113,7 @@ export default async function handler(
       authorId: user.id,
       content: content.trim(),
       title: title.trim(),
-      tags,
+      tags: tags?.map((tag) => tag.trim().toLowerCase()) ?? [],
       description: description.trim(),
     })
     .execute();
