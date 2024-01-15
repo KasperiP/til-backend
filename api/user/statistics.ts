@@ -51,16 +51,7 @@ export default async function handler(
     .orderBy('posts.id', 'desc')
     .execute();
 
-  const totalPostsPromise = await db
-    .selectFrom('posts')
-    .select(['createdAt'])
-    .execute();
-
-  const [user, posts, totalPosts] = await Promise.all([
-    userPromise,
-    postsPromise,
-    totalPostsPromise,
-  ]);
+  const [user, posts] = await Promise.all([userPromise, postsPromise]);
 
   if (!user) {
     return res.status(404).json({ code: ApiError.NOT_FOUND });
@@ -75,13 +66,6 @@ export default async function handler(
       0,
     ),
     userStreak: streak,
-    totalPosts: totalPosts.length,
-    postsLastWeek: totalPosts.filter((post) => {
-      const postCreatedAt = new Date(post.createdAt).getTime();
-      const now = new Date().getTime();
-      const weekAgo = now - 7 * 24 * 60 * 60 * 1000;
-      return postCreatedAt > weekAgo;
-    }).length,
   };
 
   return res.status(200).json(statistics);
