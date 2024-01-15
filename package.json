@@ -35,7 +35,8 @@
   "dependencies": {
     "@vercel/postgres-kysely": "^0.6.0",
     "jsonwebtoken": "^9.0.2",
-    "kysely": "^0.27.2"
+    "kysely": "^0.27.2",
+    "sitemap": "^7.1.1"
   },
   "devDependencies": {
     "@types/jsonwebtoken": "^9.0.5",
