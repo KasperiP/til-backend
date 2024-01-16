@@ -33,6 +33,8 @@ export default async function handler(
     { url: 'feed', changefreq: EnumChangefreq.WEEKLY },
     { url: 'profile' },
     { url: 'new-post' },
+    { url: 'legal/privacy-policy' },
+    { url: 'legal/terms-of-service' },
   ];
 
   const sitemap: SitemapItemLoose[] = [...sitemapItems, ...postPaths];
