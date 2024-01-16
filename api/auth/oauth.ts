@@ -98,7 +98,6 @@ export default async function handler(
   await db
     .updateTable('users')
     .set({
-      name: userData.name,
       email: userData.email,
       image: userData.image,
     })
