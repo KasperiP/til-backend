@@ -95,6 +95,17 @@ export default async function handler(
     return res.status(500).end();
   }
 
+  await db
+    .updateTable('users')
+    .set({
+      name: userData.name,
+      email: userData.email,
+      image: userData.image,
+    })
+    .where('authId', '=', userData.authId)
+    .where('authType', '=', userData.authType)
+    .executeTakeFirst();
+
   const token = jwt.sign(user, process.env.JWT_SECRET!, {
     expiresIn: '1y',
   });
