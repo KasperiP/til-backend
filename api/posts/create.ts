@@ -35,7 +35,7 @@ export default async function handler(
     return res.status(400).json({ code: ApiError.INVALID_REQUEST_BODY });
   }
 
-  if (title.length < 5 || title.length > 50) {
+  if (title.length < 10 || title.length > 100) {
     logger('Title length is invalid', LogType.ERROR, title);
     return res.status(400).json({ code: ApiError.INVALID_REQUEST_BODY });
   }
