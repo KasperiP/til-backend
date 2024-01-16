@@ -1,6 +1,7 @@
 import { type VercelRequest, type VercelResponse } from '@vercel/node';
+import jwt from 'jsonwebtoken';
 import { db, seed } from '../../lib';
-import { ApiError } from '../../models';
+import { ApiError, type User } from '../../models';
 import { estimateReadTime } from '../../utils/estimateReadTime';
 
 export default async function handler(
@@ -25,6 +26,16 @@ export default async function handler(
 
   if (postId < 0) {
     return res.status(400).json({ code: ApiError.INVALID_REQUEST_BODY });
+  }
+
+  const sessionCookie = req.cookies?.session;
+  let decoded: User | null = null;
+  if (sessionCookie) {
+    try {
+      decoded = jwt.verify(sessionCookie, process.env.JWT_SECRET!) as User;
+    } catch (err) {
+      return res.status(401).json({ code: ApiError.UNAUTHORIZED });
+    }
   }
 
   await seed();
@@ -53,9 +64,22 @@ export default async function handler(
     return res.status(404).json({ code: ApiError.NOT_FOUND });
   }
 
+  let userHasLiked = false;
+  if (decoded) {
+    const like = await db
+      .selectFrom('likes')
+      .where('userId', '=', decoded.id)
+      .where('postId', '=', postId)
+      .selectAll()
+      .executeTakeFirst();
+
+    userHasLiked = !!like;
+  }
+
   const postWithReadTime = {
     ...post,
     readTime: estimateReadTime(post.content),
+    userHasLiked,
   };
 
   return res.status(200).json(postWithReadTime);
