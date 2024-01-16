@@ -47,6 +47,7 @@ export default async function handler(
     .leftJoin('likes', 'likes.postId', 'posts.id')
     .select((eb) => [
       'posts.id as postId',
+      'posts.authorId',
       'posts.title',
       'posts.description',
       'posts.content',
@@ -73,7 +74,9 @@ export default async function handler(
       .selectAll()
       .executeTakeFirst();
 
-    userHasLiked = !!like;
+    if (like) {
+      userHasLiked = true;
+    }
   }
 
   const postWithReadTime = {
