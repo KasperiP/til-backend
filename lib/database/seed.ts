@@ -37,6 +37,7 @@ export async function seed(): Promise<Record<any, void>> {
     .ifNotExists()
     .addColumn('userId', 'integer', (cb) => cb.references('users.id').notNull())
     .addColumn('postId', 'integer', (cb) => cb.references('posts.id').notNull())
+    .addUniqueConstraint('likes_userId_postId', ['userId', 'postId'])
     .execute();
 
   logger('Seeded database');
