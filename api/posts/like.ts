@@ -41,11 +41,16 @@ export default async function handler(
   const post = await db
     .selectFrom('posts')
     .where('id', '=', postId)
+    .select(['authorId'])
     .executeTakeFirst();
 
   if (!post) {
     logger('Post not found', LogType.ERROR, postId);
     return res.status(404).json({ code: ApiError.NOT_FOUND });
+  }
+
+  if (post.authorId === decoded.id) {
+    return res.status(400).json({ code: ApiError.CANNOT_LIKE_OWN_POST });
   }
 
   const like = await db
