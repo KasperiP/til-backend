@@ -14,7 +14,6 @@ export async function seed(): Promise<Record<any, void>> {
     .addColumn('createdAt', sql`timestamp with time zone`, (cb) =>
       cb.defaultTo(sql`current_timestamp`),
     )
-    .addUniqueConstraint('authType_authId', ['authType', 'authId'])
     .execute();
 
   const createPostsTable = await db.schema
