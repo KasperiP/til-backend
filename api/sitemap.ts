@@ -21,6 +21,7 @@ export default async function handler(
   const posts = await db
     .selectFrom('posts')
     .select(['id', 'title', 'createdAt'])
+    .orderBy('createdAt', 'desc')
     .execute();
 
   const postPaths: SitemapItemLoose[] = posts.map((post) => ({
@@ -30,7 +31,11 @@ export default async function handler(
 
   const sitemapItems: SitemapItemLoose[] = [
     { url: '', priority: 1 },
-    { url: 'feed', changefreq: EnumChangefreq.WEEKLY },
+    {
+      url: 'feed',
+      changefreq: EnumChangefreq.WEEKLY,
+      lastmod: posts?.[0].createdAt.toISOString(),
+    },
     { url: 'profile' },
     { url: 'new-post' },
     { url: 'legal/privacy-policy' },
